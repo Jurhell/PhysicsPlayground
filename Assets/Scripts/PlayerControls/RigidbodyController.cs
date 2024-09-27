@@ -61,18 +61,22 @@ public class RigidbodyController : MonoBehaviour
         _direction = new Vector3(_locomotionInput.x, 0f, _locomotionInput.y);
     }
 
-    public void OnJump()
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (!_isGrounded && !_readyToJump)
-            return;
+        if (_isGrounded && _readyToJump)
+        {
+            _readyToJump = false;
 
-        _readyToJump = false;
-        //Resetting y velocity
-        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+            //Resetting y velocity
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
 
-        _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
 
-        StartCoroutine(Wait(() =>_readyToJump = true, _jumpCooldown)); 
+            //Waiting until cooldown time has elapsed before allowing another jump
+            StartCoroutine(Wait(() => { _readyToJump = true; _jumpInput = false; }, _jumpCooldown));
+            //Storing that the player has jumped
+            _jumpInput = context.action.ReadValue<float>() > 0;
+        }
     }
 
     private IEnumerator Wait(Action callback, float delay)
