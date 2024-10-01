@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
 public class RigidbodyController : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Header("Movement")]
     private float _speed;
     [SerializeField]
     private float _jumpForce;
 
+    private float _topSpeed;
     private float _jumpCooldown = 1f;
     private float _smoothTime = 0.05f;
     private float _currentVelocity;
@@ -24,11 +24,21 @@ public class RigidbodyController : MonoBehaviour
     private bool _isGrounded;
 
     private Rigidbody _rigidbody;
+    private List<Rigidbody> _childRigids;
 
-    // Start is called before the first frame update
+    [SerializeField, Header("Animation")]
+    private Animator _unityChanAnimator;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _topSpeed = _speed;
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -46,10 +56,26 @@ public class RigidbodyController : MonoBehaviour
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _smoothTime);
         //Rotating player
         _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+
+        //Animation Section
+        if (_unityChanAnimator == null)
+            return;
+
+        _unityChanAnimator.SetFloat("Speed", _speed);
+        _unityChanAnimator.SetBool("Jump", _jumpInput);
+        _unityChanAnimator.SetBool("Grounded", _isGrounded);
+        _unityChanAnimator.SetBool("Rest", AtRest());
+
+        if (_speed <= 0.1f && AtRest())
+            _unityChanAnimator.Play("WAIT00");
     }
 
     private void FixedUpdate()
-    { 
+    {
+        if (_speed == 0f && _isGrounded)
+            _rigidbody.velocity = Vector3.zero;
+
+        Acceleration();
         Vector3 force = _direction.normalized * (_speed * 2) * Time.fixedDeltaTime;
         _rigidbody.AddForce(force, ForceMode.VelocityChange);
     }
@@ -77,6 +103,46 @@ public class RigidbodyController : MonoBehaviour
             //Storing that the player has jumped
             _jumpInput = context.action.ReadValue<float>() > 0;
         }
+    }
+
+    private void Acceleration()
+    {
+        //Checking if the player is moving
+        if (_locomotionInput.x != 0 || _locomotionInput.y != 0)
+        {
+            _speed += 2.56f;
+
+            if (_speed > _topSpeed)
+                _speed = _topSpeed;
+        }
+        else
+            _speed -= 3.84f;
+
+        if (_speed < 0)
+            _speed = 0;
+    }
+
+    private bool AtRest()
+    {
+        if (_rigidbody.velocity == Vector3.zero)
+            return true;
+        else
+            return false;   
+    }
+
+    public void ToggleRagdoll(bool enabled)
+    {
+        _rigidbody.isKinematic = enabled;
+        TryGetComponent(out Collider collider);
+        if (collider)
+            collider.enabled = !enabled;
+
+        foreach (Rigidbody item in GetComponentsInChildren<Rigidbody>(true))
+            if (item != _rigidbody)
+                item.isKinematic = !enabled;
+        foreach (Collider item in GetComponentsInChildren<Collider>(true))
+            if (item != collider)
+                item.enabled = enabled;
     }
 
     private IEnumerator Wait(Action callback, float delay)

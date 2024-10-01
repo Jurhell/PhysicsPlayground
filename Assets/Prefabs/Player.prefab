@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 25
   _jumpForce: 100
+  _unityChanAnimator: {fileID: 7456955857658129668}
 --- !u!1001 &7456955857665513572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375,6 +376,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
+--- !u!95 &7456955857658129668 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
+  m_PrefabInstance: {fileID: 7456955857665513572}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7456955857665639330 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
