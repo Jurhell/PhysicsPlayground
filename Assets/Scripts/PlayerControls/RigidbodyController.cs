@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -64,6 +63,7 @@ public class RigidbodyController : MonoBehaviour
         _rigidbody.AddForce(force, ForceMode.VelocityChange);
     }
 
+    #region InputEvents
     public void OnMove(InputAction.CallbackContext context)
     {
         //Storing player input and direction when player moves
@@ -89,16 +89,12 @@ public class RigidbodyController : MonoBehaviour
         }
     }
 
-    public void OnReset(InputAction.CallbackContext context)
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    public void OnReset(InputAction.CallbackContext context) => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-    public void OnRagdoll(InputAction.CallbackContext context)
-    {
-        ToggleRagdoll(_ragdollToggle);
-    }
+    public void OnRagdoll(InputAction.CallbackContext context) => ToggleRagdoll(_ragdollToggle);
+    #endregion
 
+    //Rotates the player to face the direction they're moving
     private void PlayerFacing()
     {
         //Guard that makes player continue facing previous direction
@@ -120,6 +116,7 @@ public class RigidbodyController : MonoBehaviour
         {
             _speed += 2.56f;
 
+            //Capping Speed at Top Speed
             if (_speed > _topSpeed)
                 _speed = _topSpeed;
         }
