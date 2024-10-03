@@ -195,6 +195,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9baa2ac2-6735-43e0-aa70-bd321a7fb5a5
     m_ActionName: Locomotion/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6995591125007417335}
+        m_TargetAssemblyTypeName: RigidbodyController, Assembly-CSharp
+        m_MethodName: OnReset
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e485a5f-5d10-47b9-af71-3d6ff12b8dfb
+    m_ActionName: Locomotion/Reset[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c72666cf-9072-43aa-a85b-dde61b1cb43c
+    m_ActionName: Locomotion/Ragdoll[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Locomotion

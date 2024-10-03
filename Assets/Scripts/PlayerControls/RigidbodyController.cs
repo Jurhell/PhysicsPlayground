@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
@@ -22,9 +23,9 @@ public class RigidbodyController : MonoBehaviour
     private bool _jumpInput;
     private bool _readyToJump = true;
     private bool _isGrounded;
+    private bool _ragdollToggle = false;
 
     private Rigidbody _rigidbody;
-    private List<Rigidbody> _childRigids;
 
     [SerializeField, Header("Animation")]
     private Animator _unityChanAnimator;
@@ -33,12 +34,7 @@ public class RigidbodyController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _topSpeed = _speed;
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
+        ToggleRagdoll(_ragdollToggle);
     }
 
     // Update is called once per frame
@@ -46,16 +42,7 @@ public class RigidbodyController : MonoBehaviour
     {
         _isGrounded = Physics.OverlapSphere(transform.position + new Vector3(0, -0.6f, 0), 0.45f).Length > 1;
 
-        //Guard that makes player continue facing previous direction
-        if (_locomotionInput.sqrMagnitude == 0)
-            return;
-
-        //Storing the target angle as radians converted to degrees
-        float targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-        //Smoothing player rotation
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _smoothTime);
-        //Rotating player
-        _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+        PlayerFacing();
 
         //Animation Section
         if (_unityChanAnimator == null)
@@ -65,9 +52,6 @@ public class RigidbodyController : MonoBehaviour
         _unityChanAnimator.SetBool("Jump", _jumpInput);
         _unityChanAnimator.SetBool("Grounded", _isGrounded);
         _unityChanAnimator.SetBool("Rest", AtRest());
-
-        if (_speed <= 0.1f && AtRest())
-            _unityChanAnimator.Play("WAIT00");
     }
 
     private void FixedUpdate()
@@ -105,6 +89,30 @@ public class RigidbodyController : MonoBehaviour
         }
     }
 
+    public void OnReset(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnRagdoll(InputAction.CallbackContext context)
+    {
+        ToggleRagdoll(_ragdollToggle);
+    }
+
+    private void PlayerFacing()
+    {
+        //Guard that makes player continue facing previous direction
+        if (_locomotionInput.sqrMagnitude == 0)
+            return;
+
+        //Storing the target angle as radians converted to degrees
+        float targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+        //Smoothing player rotation
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _smoothTime);
+        //Rotating player
+        _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+    }
+
     private void Acceleration()
     {
         //Checking if the player is moving
@@ -139,10 +147,13 @@ public class RigidbodyController : MonoBehaviour
 
         foreach (Rigidbody item in GetComponentsInChildren<Rigidbody>(true))
             if (item != _rigidbody)
-                item.isKinematic = !enabled;
+                item.isKinematic = !enabled; 
         foreach (Collider item in GetComponentsInChildren<Collider>(true))
             if (item != collider)
                 item.enabled = enabled;
+
+        _unityChanAnimator.enabled = !enabled;
+        _ragdollToggle = !enabled;
     }
 
     private IEnumerator Wait(Action callback, float delay)

@@ -298,7 +298,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: Speed
-    m_EventTreshold: 1
+    m_EventTreshold: 0.1
   - m_ConditionMode: 1
     m_ConditionEvent: Rest
     m_EventTreshold: 0

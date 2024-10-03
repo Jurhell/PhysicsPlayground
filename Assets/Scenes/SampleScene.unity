@@ -27474,17 +27474,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f02559f512be5947bcb0770360e0fa2, type: 3}
---- !u!114 &996637538 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6995591125007417335, guid: 925eaeec1a8cb2646addb2d16276bfe1, type: 3}
-  m_PrefabInstance: {fileID: 2228569849998159012}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd2498658fc976c4187c66c9900568a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &996637544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2603890155754210400, guid: 925eaeec1a8cb2646addb2d16276bfe1, type: 3}
@@ -61167,7 +61156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1205555030967020723, guid: 925eaeec1a8cb2646addb2d16276bfe1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2603890155754210400, guid: 925eaeec1a8cb2646addb2d16276bfe1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61225,14 +61214,14 @@ PrefabInstance:
     - target: {fileID: 1924190580619939819, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9100000, guid: 8d5a0e0d58f4e4176a844a1a03976c19, type: 2}
     - target: {fileID: 2234202028545751473, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2234202028545751473, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2234202028545751473, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -61270,26 +61259,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unity Chan
       objectReference: {fileID: 0}
-    - target: {fileID: 6603814346153349712, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 3446326783985742255, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7780088541940692212, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349171582814576131, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349171582814576131, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
-      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 996637538}
-    - target: {fileID: 8349171582814576131, guid: 9a3654171d3b2174a99cdaa425eda3c0, type: 3}
-      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 996637538}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
