@@ -69,6 +69,7 @@ public class RigidbodyController : MonoBehaviour
         //Storing player input and direction when player moves
         _locomotionInput = context.action.ReadValue<Vector2>();
         _direction = new Vector3(_locomotionInput.x, 0f, _locomotionInput.y);
+        _direction = transform.TransformDirection(_direction);
     }
 
     public void OnJump(InputAction.CallbackContext context)
